@@ -1,31 +1,151 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="container">
+      <form class="calculator" name="calc">
+        <input type="text" readonly class="value" name="txt" />
+        <span class="num clear" onclick="calc.txt.value = ''">c</span>
+        <span class="num" onclick="document.calc.txt.value += '/'">/</span>
+        <span class="num" onclick="document.calc.txt.value += '*'">*</span>
+        <span class="num" onclick="document.calc.txt.value += '7'">7</span>
+        <span class="num" onclick="document.calc.txt.value += '8'">8</span>
+        <span class="num" onclick="document.calc.txt.value += '9'">9</span>
+        <span class="num" onclick="document.calc.txt.value += '-'">-</span>
+        <span class="num" onclick="document.calc.txt.value += '4'">4</span>
+        <span class="num" onclick="document.calc.txt.value += '5'">5</span>
+        <span class="num" onclick="document.calc.txt.value += '6'">6</span>
+        <span class="num plus" onclick="document.calc.txt.value += '+'">+</span>
+        <span class="num" onclick="document.calc.txt.value += '1'">1</span>
+        <span class="num" onclick="document.calc.txt.value += '2'">2</span>
+        <span class="num" onclick="document.calc.txt.value += '3'">3</span>
+        <span class="num" onclick="document.calc.txt.value += '0'">0</span>
+        <span class="num" onclick="document.calc.txt.value += '00'">00</span>
+        <span class="num" onclick="document.calc.txt.value += '.'">.</span>
+        <span
+          class="num equal"
+          onclick="document.calc.txt.value = eval(calc.txt.value)"
+          >=</span
+        >
+      </form>
     </div>
     <router-view />
   </div>
 </template>
 
+<script>
+import VanillaTilt from "vanilla-tilt";
+export default {
+  mounted() {
+    VanillaTilt.init(document.querySelector(".container"), {
+      max: 25,
+      speed: 400,
+      glare: true, 
+      "max-glare": 0.2,
+    });
+  },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-#nav {
-  padding: 30px;
+body {
+  font-family: "Quicksand", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #091921;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#e91e63, #ffc107);
+    clip-path: circle(22% at 30% 20%);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#fff, #da00ff);
+    clip-path: circle(20% at 70% 90%);
+  }
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  .container {
+    position: relative;
+    background: rgba($color: #fff, $alpha: 0.05);
+    border-radius: 6px;
+    overflow: hidden;
+    z-index: 10;
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba($color: #fff, $alpha: 0.2);
+    border-left: 1px solid rgba($color: #fff, $alpha: 0.2);
+    box-shadow: 5px 5px 30px rgba($color: #000, $alpha: 0.2);
 
-    &.router-link-exact-active {
-      color: #42b983;
+    .calculator {
+      position: relative;
+      display: grid;
+      .value {
+        grid-column: span 4;
+        height: 140px;
+        width: 300px;
+        text-align: right;
+        border: none;
+        outline: none;
+        padding: 10px;
+        font-size: 30px;
+        color: #fff;
+        background-color: transparent;
+        border-bottom: 1px solid rgba($color: #fff, $alpha: 0.05);
+        border-right: 1px solid rgba($color: #fff, $alpha: 0.05);
+      }
+      span {
+        display: grid;
+        place-items: center;
+        width: 75px;
+        height: 75px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 400;
+        cursor: pointer;
+        user-select: none;
+        border-bottom: 1px solid rgba($color: #fff, $alpha: 0.05);
+        border-right: 1px solid rgba($color: #fff, $alpha: 0.05);
+        transition: 0.6s;
+        &:hover {
+          transition: 0s;
+          background-color: rgba($color: #fff, $alpha: 0.05);
+        }
+        &:active {
+          background-color: teal;
+          color: #192f00;
+          font-size: 24px;
+          font-weight: 500;
+        }
+        &.clear {
+          grid-column: span 2;
+          width: 150px;
+          background-color: rgba($color: #fff, $alpha: 0.05);
+        }
+        &.plus {
+          grid-row: span 2;
+          height: 150px;
+        }
+        &.equal {
+          background-color: rgba($color: #fff, $alpha: 0.05);
+        }
+      }
     }
   }
 }
